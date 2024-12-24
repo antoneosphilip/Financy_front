@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -12,8 +12,17 @@ import { RouterModule } from '@angular/router';
 export class NavbarComponent {
   userRole: string | null = null;
 
-  constructor() {
+  constructor(private router: Router) {
     // Retrieve the user role from localStorage
     this.userRole = localStorage.getItem('userRole');
+  }
+
+  logout() {
+    // Clear all stored data
+    localStorage.clear(); // Clears all localStorage data
+    sessionStorage.clear(); // Clears all sessionStorage data
+
+    // Redirect to the login page
+    this.router.navigate(['/login']);
   }
 }

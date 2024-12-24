@@ -11,6 +11,12 @@ import { HttpHeaders } from '@angular/common/http';
   template: `
     <div class="bonus-form">
       <h2>Create Bonus</h2>
+
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+
       <form [formGroup]="bonusForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="title">Title:</label>
@@ -92,16 +98,20 @@ import { HttpHeaders } from '@angular/common/http';
     button:disabled {
       background-color: #cccccc;
     }
-    div[class*="errors"] {
-      color: red;
-      font-size: 12px;
-      margin-top: 5px;
+    .alert-success {
+      margin: 10px 0;
+      padding: 10px;
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 4px;
     }
   `]
 })
 export class CreateBonusManagementComponent {
   bonusForm: FormGroup;
   selectedFile: File | null = null;
+  successMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -133,12 +143,15 @@ export class CreateBonusManagementComponent {
       formData.append('userId', this.bonusForm.get('userId')?.value);
       formData.append('file', this.selectedFile);
 
-      this.http.post('https://finance-system.koyeb.app/api/bonus', formData,{headers})
+      this.http.post('https://finance-system.koyeb.app/api/bonus', formData, { headers })
         .subscribe({
           next: (response) => {
-            console.log('Bonus created successfully:', response);
+            this.successMessage = 'Bonus created successfully!';
             this.bonusForm.reset();
             this.selectedFile = null;
+
+            // Clear the success message after 3 seconds
+            setTimeout(() => this.successMessage = null, 3000);
           },
           error: (error) => {
             console.error('Error creating bonus:', error);
