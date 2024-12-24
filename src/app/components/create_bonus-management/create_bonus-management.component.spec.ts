@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateBonusManagementComponent } from './create_bonus-management.component';
 
-describe('BonusManagementComponent', () => {
+describe('CreateBonusManagementComponent', () => {
   let component: CreateBonusManagementComponent;
   let fixture: ComponentFixture<CreateBonusManagementComponent>;
 
