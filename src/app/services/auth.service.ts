@@ -1,25 +1,44 @@
 import { Injectable } from '@angular/core';
-import { MOCK_USERS } from '../mock-data-login'; // استيراد البيانات الوهمية
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private users = MOCK_USERS;
+  private apiUrl = 'https://finance-system.koyeb.app/api/auth';
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
-  login(username: string, password: string) {
-    // البحث عن المستخدم في البيانات الوهمية
-    const user = this.users.find(u => u.username === username && u.password === password);
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, {
+      email,
+      password
+    });
+  }
 
-    if (user) {
-      // إذا كان المستخدم موجودًا، قم بإرجاع بياناته
-      return { success: true, user };
-    } else {
-      // إذا لم يكن هناك تطابق، إرجاع خطأ
-      return { success: false, message: 'Invalid username or password' };
-    }
+  // Helper method to get the stored token
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  // Helper method to check if user is logged in
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  // Logout method
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
+  register(email: string, password: string, username: string, department: string, role: string) {
+    return this.http.post('https://finance-system.koyeb.app/api/auth/register', {
+      email,
+      password,
+      username,
+      department,
+      role
+    });
   }
 }

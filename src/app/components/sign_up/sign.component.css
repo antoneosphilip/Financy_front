@@ -1,3 +1,14 @@
+/* استخدم نفس CSS السابق وأضف هذا الجزء */
+select.form-control {
+  height: 42px;
+  background-color: white;
+}
+
+select.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
 .login-container {
   height: 100vh;
   display: flex;
@@ -71,33 +82,4 @@
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   outline: none;
-}
-
-
-.register-link {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.register-button {
-  background: none;
-  border: none;
-  color:  #007bff;;
-  cursor: pointer;
-  padding: 0;
-  font: inherit;
-  text-decoration: none; /* إزالة الخط السفلي */
-}
-
-.register-button:hover {
-  color: #007bff; /* لون أزرق أغمق عند التمرير */
-}
-
-a {
-  text-decoration: none;
-  cursor: pointer;
-}
-
-a:hover {
-  text-decoration: underline;
 }
