@@ -24,6 +24,7 @@
                 <th>Status</th>
                 <th>Submission Date</th>
                 <th>Processing Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -38,6 +39,14 @@
                 </td>
                 <td>{{ request.submissionDate | date:'short' }}</td>
                 <td>{{ request.processedDate | date:'short' }}</td>
+                <td>
+                  <button 
+                    *ngIf="request.status === 'approved'"
+                    class="btn btn-primary btn-sm"
+                    (click)="initiatePayment(request._id)">
+                    Pay Now
+                  </button>
+                </td>
               </tr>
             </tbody>
           </table>
