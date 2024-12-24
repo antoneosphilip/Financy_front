@@ -15,13 +15,13 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/dashboard">Dashboard</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"*ngIf="userRole === 'staff'">
           <a class="nav-link" routerLink="/bonus-management">Bonus Management</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"*ngIf="userRole === 'manager'">
           <a class="nav-link" routerLink="/createBouns">Create Bonus</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"*ngIf="userRole === 'manager'||userRole === 'finance_staff'">
           <a class="nav-link" routerLink="/reports">Reports</a>
         </li>
         <li class="nav-item">

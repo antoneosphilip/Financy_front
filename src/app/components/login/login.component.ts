@@ -53,7 +53,12 @@ export class LoginComponent implements OnInit {
       
       // Store user info if needed
       localStorage.setItem('user', JSON.stringify(loginResponse.user));
-
+      
+      // يمكنك أيضًا تخزين أجزاء محددة من معلومات المستخدم بشكل منفصل إذا كنت تحتاجها بشكل متكرر
+      localStorage.setItem('userId', loginResponse.user._id);
+      localStorage.setItem('userRole', loginResponse.user.role);
+      localStorage.setItem('userStatus', loginResponse.user.status);
+      localStorage.setItem('userDepartment', loginResponse.user.department);
       // Navigate to dashboard
       this.router.navigate(['/navBar'],{replaceUrl:true});
     } catch (error: any) {

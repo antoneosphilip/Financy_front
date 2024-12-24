@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-bonus-form',
@@ -40,6 +42,15 @@ import { CommonModule } from '@angular/common';
           <div *ngIf="bonusForm.get('userId')?.errors?.['required'] && bonusForm.get('userId')?.touched">
             User ID is required
           </div>
+        </div>
+
+        <div class="form-group">
+          <label for="file">File:</label>
+          <input 
+            id="file" 
+            type="file" 
+            (change)="onFileSelected($event)"
+            accept=".pdf,.doc,.docx">
         </div>
 
         <button type="submit" [disabled]="!bonusForm.valid">Submit</button>
@@ -90,8 +101,12 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateBonusManagementComponent {
   bonusForm: FormGroup;
+  selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) {
     this.bonusForm = this.fb.group({
       title: ['', Validators.required],
       reason: ['', Validators.required],
@@ -100,10 +115,35 @@ export class CreateBonusManagementComponent {
     });
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
   onSubmit() {
-    if (this.bonusForm.valid) {
-      console.log(this.bonusForm.value);
-      // Here you would typically send the data to your backend
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+
+    if (this.bonusForm.valid && this.selectedFile) {
+      const formData = new FormData();
+      formData.append('title', this.bonusForm.get('title')?.value);
+      formData.append('reason', this.bonusForm.get('reason')?.value);
+      formData.append('amount', this.bonusForm.get('amount')?.value);
+      formData.append('userId', this.bonusForm.get('userId')?.value);
+      formData.append('file', this.selectedFile);
+
+      this.http.post('https://finance-system.koyeb.app/api/bonus', formData,{headers})
+        .subscribe({
+          next: (response) => {
+            console.log('Bonus created successfully:', response);
+            this.bonusForm.reset();
+            this.selectedFile = null;
+          },
+          error: (error) => {
+            console.error('Error creating bonus:', error);
+          }
+        });
     }
   }
 }
