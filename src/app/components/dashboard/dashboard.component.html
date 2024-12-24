@@ -1,30 +1,29 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <!-- Dashboard Title -->
       <h1 class="mt-4 mb-4 text-center text-primary">Dashboard</h1>
-
-      <!-- Total Bonuses Card -->
+      
       <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
-          <h4>Total Bonuses</h4>
+          <h4>Approved Bonuses Total</h4>
         </div>
         <div class="card-body text-center">
           <h3>{{ totalBonuses | currency }}</h3>
         </div>
       </div>
 
-      <!-- Bonus Requests Table -->
       <div class="mt-4">
-        <h3>Bonus Requests</h3>
+        <h3>Processed Bonus Requests</h3>
         <div class="table-responsive">
           <table class="table table-striped table-hover">
-            <thead class="thead-dark">
+            <thead class="table-dark">
               <tr>
                 <th>Title</th>
                 <th>Reason</th>
                 <th>Amount</th>
                 <th>Status</th>
+                <th>Submission Date</th>
+                <th>Processing Date</th>
               </tr>
             </thead>
             <tbody>
@@ -33,12 +32,12 @@
                 <td>{{ request.reason }}</td>
                 <td>{{ request.amount | currency }}</td>
                 <td>
-                  <span [ngClass]="{
-                    'badge badge-success': request.status === 'Approved',
-                    'badge badge-warning': request.status === 'Pending',
-                    'badge badge-danger': request.status === 'Rejected'
-                  }">{{ request.status }}</span>
+                  <span [class]="getStatusClass(request.status)">
+                    {{ request.status }}
+                  </span>
                 </td>
+                <td>{{ request.submissionDate | date:'short' }}</td>
+                <td>{{ request.processedDate | date:'short' }}</td>
               </tr>
             </tbody>
           </table>

@@ -3,13 +3,23 @@
     <div class="col-12">
       <h1 class="mt-4">Reports</h1>
 
-      <!-- Search Section (Optional) -->
+      <!-- Search Section -->
       <div class="mb-4">
         <input type="text" [(ngModel)]="searchTerm" class="form-control" placeholder="Search for reports...">
       </div>
 
+      <!-- Loading State -->
+      <div *ngIf="loading" class="alert alert-info">
+        Loading report data...
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
       <!-- Report Table -->
-      <div class="card">
+      <div class="card" *ngIf="!loading && !error">
         <div class="card-header">
           Report on Bonuses
         </div>
@@ -17,21 +27,17 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Reason</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Date</th>
+                <th>ID</th>
+                <th>Total Amount</th>
+                <th>Count</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let report of reports | filter: searchTerm">
-                <td>{{ report.title }}</td>
-                <td>{{ report.reason }}</td>
-                <td>{{ report.amount | currency }}</td>
-                <td>{{ report.status }}</td>
-                <td>{{ report.date | date: 'shortDate' }}</td>
-              </tr>
+                <td>{{ report._id }}</td>
+                <td>{{ report.totalAmount | currency }}</td>
+                <td>{{ report.count }}</td>
+        <h1></h1>      </tr>
             </tbody>
           </table>
         </div>

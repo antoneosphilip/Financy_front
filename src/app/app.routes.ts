@@ -7,6 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import { Routes } from '@angular/router';
 import { SignupComponent } from './components/sign_up/sign.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { CreateBonusManagementComponent } from './components/create_bonus-management/create_bonus-management.component';
 
 
 export const routes: Routes = [
@@ -14,6 +15,8 @@ export const routes: Routes = [
   { path: 'navBar', component: NavbarComponent },
 
     { path: 'login', component: LoginComponent },
+    { path: 'createBouns', component: CreateBonusManagementComponent },
+
     { path: 'sign', component: SignupComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'bonus-management', component: BonusManagementComponent },
